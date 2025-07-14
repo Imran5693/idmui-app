@@ -37,7 +37,7 @@ A Dockerized Flask-based web interface for managing OpenStack Keystone services,
 
   2. **Update Configuration**:
 Edit config.py to update the OpenStack Keystone URL:
-```bash
+
 OS_AUTH_URL = "http://<your-vm-ip>:5000/v3"
 Replace <your-vm-ip> with your VM's actual IP address.
 
