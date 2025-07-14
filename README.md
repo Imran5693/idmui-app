@@ -42,15 +42,14 @@ OS_AUTH_URL = "http://<your-vm-ip>:5000/v3"
 Replace <your-vm-ip> with your VM's actual IP address.
 
 If your application uses SSH (via Paramiko) for remote Keystone service control, update the IP in keystone/utils.py:
-```bash
 ssh.connect('<your-vm-ip>', username='idmui', password='idmui')
 
 3.  **Build the Docker Image**:
-```bash
+
 docker build -t idmui-app .
 
 4. **Run the Docker Container**:
-```bash
+
 docker run -d --name idmui-container -p 8000:8000 idmui-app
 5. **Access the Application**:
 Open your browser and navigate to:
