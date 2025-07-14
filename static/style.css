@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Login Page Background */
+body.login-page {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Login Container */
+.container.login-container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 380px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Inputs */
+input[type="text"], input[type="password"], input[type="email"], select {
+    width: 100%;
+    padding: 10px 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+    outline: none;
+}
+
+/* Custom Buttons */
+button, .btn-custom {
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 10px 18px;
+    margin-top: 10px;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+button:hover, .btn-custom:hover {
+    background: #5a67d8;
+    transform: translateY(-1px);
+}
+
+/* Flash Messages */
+.form-message {
+    margin-top: 10px;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.form-message.success {
+    background-color: #e6ffed;
+    color: #2f855a;
+    border: 1px solid #c6f6d5;
+}
+
+.form-message.error {
+    background-color: #ffe6e6;
+    color: #cc0000;
+    border: 1px solid #f5c2c2;
+}
+
+/* Keystone Status Indicators */
+.status-green {
+    color: green;
+    font-weight: bold;
+}
+
+.status-red {
+    color: red;
+    font-weight: bold;
+}
+
+/* Dashboard Cards Layout */
+.dashboard-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+/* Cards */
+.dashboard-card {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 300px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Sidebar Styling */
+.sidebar {
+    min-width: 200px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidebar h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.sidebar ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+.sidebar a {
+    color: #eee;
+    display: block;
+    padding: 10px 12px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #444;
+}
+
+/* Content Area */
+.main-content {
+    margin-left: 220px;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* Table Styling (Group Management, etc.) */
+table {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+table thead {
+    background-color: #667eea;
+    color: white;
+}
+
+table th, table td {
+    padding: 12px 16px;
+    text-align: left;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table a.btn-danger {
+    font-size: 0.875rem;
+    padding: 4px 8px;
+    background-color: #e53e3e;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+}
+
+table a.btn-danger:hover {
+    background-color: #c53030;
+}
+
+
+/* Top Navbar Customization */
+.custom-navbar {
+    background-color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    color: #fff;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.custom-navbar .nav-link:hover {
+    color: #bbb;
+}
+
+/* Ensure main content doesn't overlap with fixed navbar
+body {
+    padding-top: 56px;
+} */
+
+.sidebar-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar .logo {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0;
+}
+
+.sidebar .section-title {
+    font-size: 0.9rem;
+    color: #bbb;
+    margin-top: 4px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Updated Login Page Background */
+body.login-page {
+    background-image: url('/static/images/idm2.png'); /* Replace with your actual path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/* Optional Overlay (soft dark tint for better contrast) */
+body.login-page .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+}
+
+/* Ensure login container is above overlay */
+.login-container {
+    z-index: 1;
+    position: relative;
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #0066ff, #00ccff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.bg-gradient-light {
+    background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+}

@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-gradient">{{ role }} Dashboard</h1>
+        <p class="lead">Welcome back, <strong>{{ username }}</strong></p>
+        <p class="text-muted">Project: <strong>{{ project_name }}</strong></p>
+    </div>
+
+    <div class="row g-4">
+        {% if role == 'Admin' %}
+            <!-- Card 1 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg h-100 bg-gradient-light">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-semibold">🔧 Service Status</h5>
+                        <p class="card-text">Monitor and manage Keystone services.</p>
+                        <a href="{{ url_for('keystone.keystone_status') }}" class="btn btn-primary w-100 mb-2">View Status</a>
+                        <a href="{{ url_for('keystone.keystone_manage') }}" class="btn btn-outline-dark w-100">Manage Service</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg h-100 bg-gradient-light">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-semibold">🆔 Identity Services</h5>
+                        <p class="card-text">Control users, roles, and identity options.</p>
+                        <a href="{{ url_for('keystone.manage_services') }}" class="btn btn-primary w-100 mb-2">Services</a>
+                        <a href="{{ url_for('keystone.user_management') }}" class="btn btn-outline-dark w-100">Users</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg h-100 bg-gradient-light">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-semibold">🗄️ Database Management</h5>
+                        <p class="card-text">Check and maintain Keystone database operations.</p>
+                        <a href="{{ url_for('keystone.database_management') }}" class="btn btn-primary w-100">Open Database</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <!-- Non-admin card 1 -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-lg h-100 bg-gradient-light">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-semibold">🔐 Your Access</h5>
+                        <p class="card-text">Explore your assigned roles and permissions.</p>
+                        <a href="{{ url_for('keystone.service_management') }}" class="btn btn-primary w-100">View Services</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Non-admin card 2 -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-lg h-100 bg-gradient-light">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-semibold">📁 Project Info</h5>
+                        <p class="card-text">Project: {{ project_name }}</p>
+                        <button class="btn btn-outline-secondary w-100" disabled>More features coming...</button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

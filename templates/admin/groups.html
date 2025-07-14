@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+
+{% block title %}Group Management{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="fw-bold text-gradient text-center mb-4">Group Management</h2>
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- Group Creation Form -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white fw-semibold">
+      <i class="bi bi-people-fill me-2"></i> Create New Group
+    </div>
+    <div class="card-body">
+      <form method="POST" action="{{ url_for('keystone.create_new_group') }}" class="row g-3">
+        <div class="col-md-4">
+          <input type="text" name="group_name" class="form-control" placeholder="Group Name" required>
+        </div>
+        <div class="col-md-6">
+          <input type="text" name="description" class="form-control" placeholder="Description (optional)">
+        </div>
+        <div class="col-md-2 d-grid">
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> Create
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Group Table -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white fw-semibold">
+      <i class="bi bi-people me-2"></i> Existing Groups
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th class="text-center" style="width: 150px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if groups %}
+              {% for group in groups %}
+              <tr>
+                <td>{{ group.name }}</td>
+                <td>{{ group.description }}</td>
+                <td class="text-center">
+                  <a href="{{ url_for('keystone.delete_group', group_id=group.id) }}"
+                     class="btn btn-sm btn-outline-danger"
+                     onclick="return confirm('Are you sure you want to delete {{ group.name }}?');">
+                    <i class="bi bi-trash-fill me-1"></i> Delete
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="3" class="text-center text-muted">No groups found.</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

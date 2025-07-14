@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+
+{% block title %}Domain Management{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 fw-bold text-gradient text-center">Domain Management</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Create Domain Form -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white fw-semibold">
+            <i class="bi bi-globe me-1"></i> Create New Domain
+        </div>
+        <div class="card-body">
+            <form method="POST" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Domain Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter domain name" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Description</label>
+                    <input type="text" name="description" class="form-control" placeholder="Enter description">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="enabled" id="enabledCheck" checked>
+                        <label class="form-check-label fw-semibold" for="enabledCheck">Enabled</label>
+                    </div>
+                </div>
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-plus-circle me-1"></i> Create Domain
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Domain List Table -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white fw-semibold">
+            <i class="bi bi-list-ul me-1"></i> Existing Domains
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Toggle</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for domain in domains %}
+                        <tr>
+                            <td>{{ domain.name }}</td>
+                            <td>{{ domain.description or '—' }}</td>
+                            <td>
+                                <span class="badge bg-{{ 'success' if domain.enabled else 'secondary' }}">
+                                    {{ 'Enabled' if domain.enabled else 'Disabled' }}
+                                </span>
+                            </td>
+                            <td>
+                                <form method="POST" action="{{ url_for('keystone.toggle_domain_enabled', domain_id=domain.id) }}">
+                                    <select name="enabled" class="form-select form-select-sm" onchange="this.form.submit()">
+                                        <option value="true" {% if domain.enabled %}selected{% endif %}>Enabled</option>
+                                        <option value="false" {% if not domain.enabled %}selected{% endif %}>Disabled</option>
+                                    </select>
+                                </form>
+                            </td>
+                            <td>
+                                <form method="POST" action="{{ url_for('keystone.delete_existing_domain', domain_id=domain.id) }}" onsubmit="return confirm('Are you sure you want to delete this domain?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash-fill me-1"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% if domains|length == 0 %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No domains found.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

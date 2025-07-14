@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block title %}Create New Service{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 text-center text-gradient fw-bold">Create New Service</h2>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <strong>Service Creation Form</strong>
+    </div>
+    <div class="card-body">
+      <form method="POST" action="{{ url_for('keystone.create_service_form') }}">
+        <div class="mb-3">
+          <label for="name" class="form-label">Service Name</label>
+          <input type="text" id="name" name="name" class="form-control" placeholder="e.g. nova" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="type" class="form-label">Service Type</label>
+          <input type="text" id="type" name="type" class="form-control" placeholder="e.g. compute" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <input type="text" id="description" name="description" class="form-control" placeholder="Optional">
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Create Service
+          </button>
+          <a href="{{ url_for('keystone.list_endpoints') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left-circle"></i> Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center fw-bold text-gradient">Projects</h2>
+
+    {% if projects %}
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle table-bordered">
+            <thead class="table-dark">
+                <tr class="text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">Project Name</th>
+                    <th scope="col">Project ID</th>
+                    <th scope="col">Domain</th>
+                    <!-- <th scope="col">Status</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td class="fw-semibold">{{ project.name }}</td>
+                    <td>{{ project.id }}</td>
+                    <td>{{ project.domain }}</td>
+                    <!--
+                    <td>
+                        {% if project.enabled %}
+                            <span class="badge bg-success">Enabled</span>
+                        {% else %}
+                            <span class="badge bg-danger">Disabled</span>
+                        {% endif %}
+                    </td>
+                    -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center">No projects found.</div>
+    {% endif %}
+</div>
+{% endblock %}

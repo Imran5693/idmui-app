@@ -1,0 +1,104 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 fw-semibold text-center text-gradient">Endpoint Management</h2>
+
+  <!-- Create Endpoint Form -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white fw-semibold">
+      Create New Endpoint
+    </div>
+    <div class="card-body">
+      <form method="POST" action="{{ url_for('keystone.create_new_endpoint') }}">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">URL</label>
+            <input type="text" name="url" class="form-control" placeholder="e.g. http://localhost:5000/v3" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-semibold">Interface</label>
+            <select name="interface" class="form-select" required>
+              <option value="public">Public</option>
+              <option value="internal">Internal</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-semibold">Region</label>
+            <select name="region" class="form-select" required>
+              <option value="RegionOne">RegionOne</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Service</label>
+            <select name="service_id" class="form-select" required>
+              {% for service in services %}
+              <option value="{{ service.id }}">{{ service.name }} ({{ service.type }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-success mt-2">
+              <i class="bi bi-plus-circle me-1"></i> Create Endpoint
+            </button>
+            <a href="{{ url_for('keystone.create_service_form') }}" class="btn btn-outline-primary mt-2 ms-2">
+              <i class="bi bi-plus-circle"></i> Create New Service
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Endpoints Table -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white fw-semibold">
+      Existing Endpoints
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Interface</th>
+              <th>URL</th>
+              <th>Region</th>
+              <th>Service Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ep in endpoints %}
+            <tr>
+              <td>{{ ep.id }}</td>
+              <td>{{ ep.interface }}</td>
+              <td>{{ ep.url }}</td>
+              <td>{{ ep.region }}</td>
+              <td>
+                {% set service = service_dict.get(ep.service_id) %}
+                {{ service.type if service else 'N/A' }}
+              </td>
+              <td>
+                <form method="POST" action="{{ url_for('keystone.delete_endpoint_route', endpoint_id=ep.id) }}"
+                      onsubmit="return confirm('Are you sure you want to delete this endpoint?');">
+                  <button type="submit" class="btn btn-sm btn-danger">
+                    <i class="bi bi-trash"></i> Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+            {% if endpoints|length == 0 %}
+            <tr>
+              <td colspan="6" class="text-center text-muted">No endpoints found.</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

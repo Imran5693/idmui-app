@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block title %}Admin Token Info{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="fw-bold text-gradient text-center mb-4">Current Admin Token Info</h2>
+
+    {% if token_details %}
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <table class="table table-bordered table-striped align-middle">
+                <tbody>
+                   
+                        <th scope="row">User Name</th>
+                        <td>{{ token_details.user }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">User ID</th>
+                        <td>{{ token_details.user_id }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Project</th>
+                        <td>{{ token_details.project or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Roles</th>
+                        <td>
+                            {% for role in token_details.roles %}
+                                <span class="badge bg-info text-dark me-1">{{ role }}</span>
+
+                            {% endfor %}
+                        </td>
+                        <tr>
+                            <th scope="row">User ID</th>
+                            <td>{{ token_details.user_id }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-25">Issued At</th>
+                            <td>{{ token_details.issued_at }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Expires At</th>
+                            <td>{{ token_details.expires_at }}</td>
+                        </tr>
+                        <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center" role="alert">
+        No token information available.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

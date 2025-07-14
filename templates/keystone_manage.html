@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 50vh;">
+  <div class="card shadow-lg" style="width: 500px;">
+    <div class="card-header bg-primary text-white text-center">
+      <h3>Keystone Service Control (Apache2)</h3>
+    </div>
+    <div class="card-body text-center">
+      {% set status_class = 'status-green' if status == 'active' else 'status-red' %}
+      <p>Status: <strong class="{{ status_class }}" style="font-size: 1.25rem;">{{ status.capitalize() }}</strong></p>
+
+      <form method="POST" class="d-flex justify-content-around mt-4">
+        <button type="submit" name="action" value="start" class="btn btn-success">Start</button>
+        <button type="submit" name="action" value="stop" class="btn btn-danger">Stop</button>
+        <button type="submit" name="action" value="restart" class="btn btn-warning">Restart</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

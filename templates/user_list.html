@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center fw-bold text-gradient">User List</h2>
+
+    {% if users %}
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle table-bordered">
+            <thead class="table-dark">
+                <tr class="text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Roles</th>
+                    <th scope="col">Projects</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td class="fw-semibold">{{ user.name }}</td>
+                    <td>
+                        {% if user.roles %}
+                            {% for role in user.roles %}
+                                <span class="badge bg-primary me-1">{{ role }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="text-muted">None</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.projects %}
+                            {% for proj in user.projects %}
+                                <span class="badge bg-secondary me-1">{{ proj }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="text-muted">None</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center">No users found.</div>
+    {% endif %}
+</div>
+{% endblock %}

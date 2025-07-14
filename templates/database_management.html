@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+
+{% block title %}Database Management{% endblock %}
+{% block header %}Database Management: {{ db_name }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <!-- Actions -->
+  <div class="d-flex justify-content-between mb-3">
+    <a href="{{ url_for('keystone.database_backup') }}" class="btn btn-warning"
+       onclick="return confirm('This may take several minutes. Continue?')">
+      <i class="bi bi-hdd-fill me-1"></i> Create Backup
+    </a>
+    <button class="btn btn-outline-primary" onclick="window.location.reload()">
+      <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+    </button>
+  </div>
+
+  <!-- SQL Query -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <strong>Run SQL Query</strong>
+    </div>
+    <div class="card-body">
+      <form method="POST" action="{{ url_for('keystone.database_query') }}">
+        <div class="mb-3">
+          <textarea name="query" class="form-control" rows="3" 
+                    placeholder="SELECT * FROM user LIMIT 10;" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Execute</button>
+        <small class="text-muted ms-2">Only SELECT queries return results.</small>
+      </form>
+    </div>
+  </div>
+
+  <!-- Database Status -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-success text-white">
+      <strong>Database Status</strong>
+    </div>
+    <div class="card-body">
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="border rounded p-3 text-center">
+            <h6>Uptime</h6>
+            <p class="text-muted">{{ status['Uptime'] | format_seconds }}</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="border rounded p-3 text-center">
+            <h6>Connections</h6>
+            <p class="text-muted">{{ status['Threads_connected'] }}/{{ status['Max_used_connections'] }}</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="border rounded p-3 text-center">
+            <h6>Query Cache</h6>
+            <p class="text-muted">
+              {% set hits = status.get('Qcache_hits', 0)|int %}
+              {% set selects = status.get('Com_select', 0)|int %}
+              {% set total = hits + selects %}
+              {{ hits }} hits ({{ (hits / total * 100)|round(1) if total > 0 else 0 }}%)
+            </p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="border rounded p-3 text-center">
+            <h6>InnoDB Memory</h6>
+            <p class="text-muted">{{ status['Innodb_buffer_pool_bytes_data'] | format_bytes }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Connections -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-info text-white">
+      <strong>Top 4 Active Connections</strong>
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-striped table-hover m-0">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Host</th>
+            <th>Database</th>
+            <th>Command</th>
+            <th>Time</th>
+            <th>State</th>
+            <th>Info</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for process in processes[:4] %}
+          <tr>
+            <td>{{ process.Id }}</td>
+            <td>{{ process.User }}</td>
+            <td>{{ process.Host }}</td>
+            <td>{{ process.db or 'NULL' }}</td>
+            <td>{{ process.Command }}</td>
+            <td>{{ process.Time }}</td>
+            <td>{{ process.State or 'NULL' }}</td>
+            <td class="text-monospace">{{ process.Info or '' | truncate(30) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tables Overview -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      <strong>Tables Overview ({{ tables | length }})</strong>
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-bordered table-striped m-0">
+        <thead class="table-light">
+          <tr>
+            <th>Table Name</th>
+            <th>Rows</th>
+            <th>Data Size</th>
+            <th>Index Size</th>
+            <th>Total Size</th>
+            <th>Last Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for table in stats %}
+          <tr>
+            <td>{{ table.table_name }}</td>
+            <td>{{ table.table_rows | format_number }}</td>
+            <td>{{ table.data_size_mb }} MB</td>
+            <td>{{ table.index_size_mb }} MB</td>
+            <td>{{ table.total_size_mb }} MB</td>
+            <td>{{ table.update_time or 'N/A' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block title %}Keystone API Status{% endblock %}
+
+{% block header %}Keystone Service API Status{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <strong>Service Status</strong>
+        </div>
+        <div class="card-body">
+            {% if status.healthy %}
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <div>
+                        <strong>Status:</strong> {{ status.status }}
+                    </div>
+                </div>
+                <p><strong>Version:</strong> {{ status.version }}</p>
+            {% else %}
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <div>
+                        <strong>Service Error:</strong> {{ status.error }}
+                    </div>
+                </div>
+            {% endif %}
+            <p class="text-muted"><i class="bi bi-clock-history me-1"></i> Last Checked: {{ status.timestamp }}</p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
