@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}Query Results{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <strong>Query Results</strong>
+    </div>
+    <div class="card-body">
+
+      <p><strong>Executed Query:</strong> <code>{{ query }}</code></p>
+
+      {% if results %}
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="table-light">
+            <tr>
+              {% for col in columns %}
+                <th>{{ col }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in results %}
+              <tr>
+                {% for col in columns %}
+                  <td>{{ row[col] }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+        <div class="alert alert-info">No results returned by the query.</div>
+      {% endif %}
+
+      <a href="{{ url_for('keystone.database_management') }}" class="btn btn-secondary mt-3">Back to Database</a>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
